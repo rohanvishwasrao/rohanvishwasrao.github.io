@@ -1,6 +1,588 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <h1>Hello World! Welcome to my GitHub website.</h1>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rohan Vishwasrao — Engineering Leader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0f12;
+      --surface:  #13171c;
+      --border:   #1e2530;
+      --muted:    #3a4455;
+      --subtle:   #6b7a94;
+      --body:     #a8b4c8;
+      --heading:  #e8edf5;
+      --accent:   #4af0a4;
+      --accent2:  #7c9eff;
+      --danger:   #ff6b6b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: .4;
+    }
+
+    /* ── GRID LINES ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: .35;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── GLOW ORBS ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 { width: 500px; height: 500px; top: -120px; left: -140px; background: rgba(74, 240, 164, 0.06); }
+    .orb-2 { width: 400px; height: 400px; bottom: 80px; right: -100px; background: rgba(124, 158, 255, 0.07); }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      background: rgba(13, 15, 18, .7);
+    }
+    nav .inner {
+      max-width: 860px; margin: 0 auto; padding: 0 28px;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; color: var(--accent); letter-spacing: .06em;
+    }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-size: 13px; color: var(--subtle); text-decoration: none;
+      transition: color .2s; letter-spacing: .04em;
+    }
+    .nav-links a:hover { color: var(--heading); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 96px 0 80px;
+      display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: start;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--accent);
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--accent);
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(42px, 6vw, 64px);
+      color: var(--heading); line-height: 1.05;
+      letter-spacing: -.02em; margin-bottom: 24px;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub {
+      font-size: 17px; color: var(--body); line-height: 1.65;
+      max-width: 520px; font-weight: 300;
+    }
+    .hero-sub strong { color: var(--heading); font-weight: 500; }
+
+    .hero-ctas { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 20px; border-radius: 6px;
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      text-decoration: none; transition: all .2s; cursor: pointer;
+      letter-spacing: .04em;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0d0f12; font-weight: 500;
+    }
+    .btn-primary:hover { background: #6ff5b8; transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent; color: var(--body);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--subtle); color: var(--heading); transform: translateY(-1px); }
+
+    .hero-avatar {
+      width: 120px; height: 120px; border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden; flex-shrink: 0;
+      box-shadow: 0 0 0 4px rgba(74,240,164,.08);
+      margin-top: 12px;
+    }
+    .hero-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* ── SECTION ── */
+    section { padding: 72px 0; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--accent);
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: 36px; display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px; color: var(--heading); margin-bottom: 16px;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .about-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 24px;
+      transition: border-color .2s;
+    }
+    .about-card:hover { border-color: var(--muted); }
+    .about-card-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; color: var(--subtle);
+      letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .about-card-value {
+      font-size: 15px; color: var(--heading); line-height: 1.5;
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; padding: 4px 10px; border-radius: 4px;
+      background: rgba(74,240,164,.07); color: var(--accent);
+      border: 1px solid rgba(74,240,164,.15);
+    }
+    .tag-blue {
+      background: rgba(124,158,255,.07); color: var(--accent2);
+      border-color: rgba(124,158,255,.15);
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline { position: relative; padding-left: 24px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+      width: 1px; background: var(--border);
+    }
+    .tl-item {
+      position: relative; margin-bottom: 40px;
+    }
+    .tl-item::before {
+      content: ''; position: absolute; left: -28px; top: 8px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 10px var(--accent);
+    }
+    .tl-item.muted::before { background: var(--muted); box-shadow: none; }
+    .tl-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--subtle);
+      margin-bottom: 6px; letter-spacing: .05em;
+    }
+    .tl-title { font-size: 17px; color: var(--heading); font-weight: 500; margin-bottom: 4px; }
+    .tl-company { font-size: 13px; color: var(--accent2); margin-bottom: 10px; }
+    .tl-desc { font-size: 14px; color: var(--body); line-height: 1.65; }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 24px;
+      text-decoration: none; color: inherit;
+      transition: all .2s; display: flex; flex-direction: column; gap: 10px;
+    }
+    .project-card:hover {
+      border-color: var(--accent2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(124,158,255,.08);
+    }
+    .project-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .project-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      background: rgba(124,158,255,.08); border: 1px solid rgba(124,158,255,.15);
+    }
+    .project-star {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--subtle);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .project-name { font-size: 15px; color: var(--heading); font-weight: 500; }
+    .project-desc { font-size: 13px; color: var(--body); line-height: 1.55; flex: 1; }
+    .project-lang {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--subtle);
+      display: flex; align-items: center; gap: 6px; margin-top: 4px;
+    }
+    .lang-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .lang-python { background: #3572a5; }
+    .lang-java    { background: #b07219; }
+    .lang-html    { background: #e34c26; }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .skill-group {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+    }
+    .skill-group-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--accent);
+      letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .skill-list { display: flex; flex-direction: column; gap: 8px; }
+    .skill-item { font-size: 13px; color: var(--body); display: flex; align-items: center; gap: 8px; }
+    .skill-item::before { content: '▸'; color: var(--accent2); font-size: 10px; }
+
+    /* ── CONTACT ── */
+    .contact-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 48px;
+      text-align: center;
+    }
+    .contact-box p { font-size: 15px; color: var(--body); max-width: 460px; margin: 12px auto 28px; line-height: 1.65; }
+    .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; color: var(--muted);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer a { color: var(--subtle); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero > * { animation: fadeUp .7s ease both; }
+    .hero > *:nth-child(2) { animation-delay: .12s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-avatar { display: none; }
+      .about-grid, .projects-grid, .skills-grid { grid-template-columns: 1fr; }
+      .contact-box { padding: 32px 20px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="inner">
+      <span class="nav-logo">rv.github.io</span>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="container">
+    <div class="hero">
+      <div>
+        <div class="hero-eyebrow">Engineering Leader · Seattle, WA</div>
+        <h1>Rohan<br /><em>Vishwasrao</em></h1>
+        <p class="hero-sub">
+          Director of Engineering at <strong>Smartsheet</strong>, leading Core Platform and Views Engineering.
+          Previously at <strong>Microsoft</strong> and <strong>Expedia</strong>. Passionate about distributed systems,
+          developer productivity, and building teams that ship with conviction.
+        </p>
+        <div class="hero-ctas">
+          <a href="https://www.linkedin.com/in/vishwasraorohan" class="btn btn-primary" target="_blank">
+            ↗ LinkedIn
+          </a>
+          <a href="https://github.com/rohanvishwasrao" class="btn btn-secondary" target="_blank">
+            ⌥ GitHub
+          </a>
+          <a href="#contact" class="btn btn-secondary">Get in touch</a>
+        </div>
+      </div>
+      <div class="hero-avatar">
+        <img src="https://avatars.githubusercontent.com/u/704635?v=4" alt="Rohan Vishwasrao" />
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ABOUT -->
+  <div class="container">
+    <section id="about">
+      <div class="section-label">About</div>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-card-label">Focus Areas</div>
+          <div class="tag-row">
+            <span class="tag">Distributed Systems</span>
+            <span class="tag">Platform Engineering</span>
+            <span class="tag">Developer Productivity</span>
+            <span class="tag">AI/ML Tooling</span>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-label">Currently Building</div>
+          <div class="about-card-value">
+            <strong style="color:var(--accent2)">TeamLens</strong> — an AI-powered engineering team health dashboard.
+            Exploring agentic workflows with ReACT loops, ChromaDB, and Groq.
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-label">Tech Roots</div>
+          <div class="tag-row">
+            <span class="tag-blue tag">Java</span>
+            <span class="tag-blue tag">Python</span>
+            <span class="tag-blue tag">JVM / G1GC / ZGC</span>
+            <span class="tag-blue tag">Kubernetes</span>
+            <span class="tag-blue tag">Kafka</span>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-label">Location</div>
+          <div class="about-card-value">
+            Seattle, WA — open to hybrid and remote leadership roles in healthcare and infrastructure.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- EXPERIENCE -->
+  <div class="container">
+    <section id="experience">
+      <div class="section-label">Experience</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-meta">2022 — Present</div>
+          <div class="tl-title">Director of Engineering</div>
+          <div class="tl-company">Smartsheet</div>
+          <div class="tl-desc">
+            Leading Core Platform and Views Engineering — a distributed org spanning multiple teams.
+            Driving platform reliability, latency improvements, and AI-assisted developer productivity initiatives.
+            Owns uptime SLAs, quota management systems, and large-scale JVM performance tuning (Java 21 → ZGC migration).
+          </div>
+        </div>
+        <div class="tl-item muted">
+          <div class="tl-meta">2019 — 2022</div>
+          <div class="tl-title">Sr. Engineering Manager</div>
+          <div class="tl-company">Smartsheet</div>
+          <div class="tl-desc">
+            Managed the Core Platform engineering group. Built and scaled teams, led cross-functional delivery,
+            and architected systems for quota management and data layer modernization.
+          </div>
+        </div>
+        <div class="tl-item muted">
+          <div class="tl-meta">Earlier</div>
+          <div class="tl-title">Engineering Roles</div>
+          <div class="tl-company">Microsoft · Expedia</div>
+          <div class="tl-desc">
+            Delivered distributed backend systems and developer tooling at scale.
+            Contributed to code retreat programs and platform infrastructure at Expedia.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- PROJECTS -->
+  <div class="container">
+    <section id="projects">
+      <div class="section-label">Projects</div>
+      <div class="projects-grid">
+        <a href="https://github.com/rohanvishwasrao/teamlens" class="project-card" target="_blank">
+          <div class="project-card-top">
+            <div class="project-icon">🔭</div>
+            <div class="project-star">★ 1</div>
+          </div>
+          <div class="project-name">TeamLens</div>
+          <div class="project-desc">
+            AI-powered engineering team health dashboard. Uses ReACT agents, ChromaDB vector store,
+            Groq API (Llama 3.3 70B), Streamlit, and Plotly for real-time team insights.
+          </div>
+          <div class="project-lang">
+            <span class="lang-dot lang-python"></span> Python
+          </div>
+        </a>
+
+        <a href="https://github.com/rohanvishwasrao/earlyedu-chatbot" class="project-card" target="_blank">
+          <div class="project-card-top">
+            <div class="project-icon">🤖</div>
+            <div class="project-star">★ 1</div>
+          </div>
+          <div class="project-name">EarlyEdu Chatbot</div>
+          <div class="project-desc">
+            AI operator built for early education — an LLM-powered chat interface designed
+            to assist parents and educators with early childhood learning.
+          </div>
+          <div class="project-lang">
+            <span class="lang-dot lang-html"></span> HTML
+          </div>
+        </a>
+
+        <a href="https://github.com/rohanvishwasrao/Tools" class="project-card" target="_blank">
+          <div class="project-card-top">
+            <div class="project-icon">⚙️</div>
+            <div class="project-star"></div>
+          </div>
+          <div class="project-name">Tools</div>
+          <div class="project-desc">
+            A collection of Java utilities and developer tooling built over the years for
+            backend productivity and platform engineering tasks.
+          </div>
+          <div class="project-lang">
+            <span class="lang-dot lang-java"></span> Java
+          </div>
+        </a>
+
+        <a href="https://github.com/rohanvishwasrao/LearningSprings" class="project-card" target="_blank">
+          <div class="project-card-top">
+            <div class="project-icon">🌱</div>
+            <div class="project-star"></div>
+          </div>
+          <div class="project-name">LearningSprings</div>
+          <div class="project-desc">
+            Explorations in Spring Framework — reference implementations and experiments
+            for learning and documenting Spring patterns.
+          </div>
+          <div class="project-lang">
+            <span class="lang-dot lang-html"></span> HTML
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- SKILLS -->
+  <div class="container">
+    <section id="skills">
+      <div class="section-label">Skills</div>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <div class="skill-group-title">Engineering</div>
+          <div class="skill-list">
+            <div class="skill-item">Java / JVM tuning</div>
+            <div class="skill-item">Python · FastAPI</div>
+            <div class="skill-item">Distributed systems</div>
+            <div class="skill-item">Kubernetes · Kafka</div>
+            <div class="skill-item">Data lake architecture</div>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">AI / ML</div>
+          <div class="skill-list">
+            <div class="skill-item">LLM agent design</div>
+            <div class="skill-item">ReACT / agentic loops</div>
+            <div class="skill-item">ChromaDB · RAG</div>
+            <div class="skill-item">Groq · Llama 3</div>
+            <div class="skill-item">Streamlit · Plotly</div>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Leadership</div>
+          <div class="skill-list">
+            <div class="skill-item">Org design & scaling</div>
+            <div class="skill-item">Cross-functional delivery</div>
+            <div class="skill-item">Roadmap & strategy</div>
+            <div class="skill-item">Platform reliability</div>
+            <div class="skill-item">Developer productivity</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- CONTACT -->
+  <div class="container">
+    <section id="contact">
+      <div class="section-label">Contact</div>
+      <div class="contact-box">
+        <h2>Let's connect</h2>
+        <p>
+          Open to conversations about engineering leadership, platform architecture,
+          AI tooling, and interesting problems at scale.
+        </p>
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/vishwasraorohan" class="btn btn-primary" target="_blank">
+            ↗ LinkedIn
+          </a>
+          <a href="https://github.com/rohanvishwasrao" class="btn btn-secondary" target="_blank">
+            ⌥ GitHub Profile
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="container">
+    <footer>
+      <span>© 2026 Rohan Vishwasrao</span>
+      <span>
+        <a href="https://github.com/rohanvishwasrao/rohanvishwasrao.github.io" target="_blank">source on github</a>
+      </span>
+    </footer>
+  </div>
+
+</body>
 </html>
